@@ -15,21 +15,70 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-  Project      Project[]
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  password      String
+  Project       Project[]
+  ProjectMember ProjectMember[]
+  TaskMessage   TaskMessage[]
 
   @@map("users")
 }
 
 model Project {
-  id         Int      @id @default(autoincrement())
-  name       String
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    Int
-  created_at DateTime @default(now()) @db.Timestamp(0)
+  id            Int             @id @default(autoincrement())
+  name          String
+  user          User            @relation(fields: [user_id], references: [id])
+  user_id       Int
+  created_at    DateTime        @default(now()) @db.Timestamp(0)
+  ProjectMember ProjectMember[]
+  Task          Task[]
+
+  @@unique([name, user_id])
   @@map("projects")
 }
 
+model ProjectMember {
+  id         Int     @id @default(autoincrement())
+  role       Role
+  project    Project @relation(fields: [project_id], references: [id])
+  project_id Int
+  user       User    @relation(fields: [user_id], references: [id])
+  user_id    Int
+
+  @@map("projectMembers")
+}
+
+enum Role {
+  OWNER
+  MEMBER
+}
+
+model Task {
+  id          Int           @id @default(autoincrement())
+  name        NameTask
+  project     Project       @relation(fields: [project_id], references: [id])
+  project_id  Int
+  TaskMessage TaskMessage[]
+
+  @@map("tasks")
+}
+
+enum NameTask {
+  Todo
+  InProgress
+  Done
+}
+
+model TaskMessage {
+  id        Int      @id @default(autoincrement())
+  message   String
+  task_name NameTask
+  task      Task     @relation(fields: [task_id], references: [id])
+  task_id   Int
+  user      User     @relation(fields: [user_id], references: [id])
+  user_id   Int
+
+  @@map("taskMessages")
+}

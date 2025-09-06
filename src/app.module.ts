@@ -6,10 +6,13 @@ import { ProjectModule } from './project/project.module';
 import { TaskController } from './task/task.controller';
 import { TaskService } from './task/task.service';
 import { TaskModule } from './task/task.module';
+import { TaskMessageController } from './task-message/task-message.controller';
+import { TaskMessageService } from './task-message/task-message.service';
+import { TaskMessageModule } from './task-message/task-message.module';
 
 @Module({
-  imports: [AuthModule, ProjectModule, TaskModule],
-  controllers: [AuthController, TaskController],
-  providers: [AuthService, TaskService],
+  imports: [AuthModule, ProjectModule, TaskModule, TaskMessageModule],
+  controllers: [AuthController, TaskController, TaskMessageController],
+  providers: [AuthService, TaskService, TaskMessageService],
 })
-export class AppModule {}
+export class AppModule { }
