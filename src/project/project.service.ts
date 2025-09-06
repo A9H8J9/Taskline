@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { AddMemberDto, CreateProjectDto } from './project.dto';
-import { PrismaClient } from 'generated/prisma';
+import { NameTask, PrismaClient } from 'generated/prisma';
 
 const prisma = new PrismaClient()
 
 @Injectable()
 export class ProjectService {
   async create({ name }: CreateProjectDto, user_id: number) {
-    await prisma.project.create({
+    const project = await prisma.project.create({
       data: {
         name: name,
         user_id: user_id,
@@ -18,6 +18,22 @@ export class ProjectService {
           }
         }
       }
+    })
+    await prisma.task.createMany({
+      data: [
+        {
+          name: NameTask.Todo,
+          project_id: project.id
+        },
+        {
+          name: NameTask.InProgress,
+          project_id: project.id
+        },
+        {
+          name: NameTask.Done,
+          project_id: project.id
+        }
+      ]
     })
     return { status: "ok" }
   }
