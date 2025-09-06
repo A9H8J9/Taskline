@@ -74,7 +74,6 @@ enum NameTask {
 model TaskMessage {
   id        Int      @id @default(autoincrement())
   message   String
-  task_name NameTask
   task      Task     @relation(fields: [task_id], references: [id])
   task_id   Int
   user      User     @relation(fields: [user_id], references: [id])
