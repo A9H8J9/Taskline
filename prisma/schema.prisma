@@ -47,6 +47,7 @@ model ProjectMember {
   user       User    @relation(fields: [user_id], references: [id])
   user_id    Int
 
+  @@unique([user_id, project_id])
   @@map("projectMembers")
 }
 
@@ -72,12 +73,13 @@ enum NameTask {
 }
 
 model TaskMessage {
-  id        Int      @id @default(autoincrement())
-  message   String
-  task      Task     @relation(fields: [task_id], references: [id])
-  task_id   Int
-  user      User     @relation(fields: [user_id], references: [id])
-  user_id   Int
+  id      Int    @id @default(autoincrement())
+  message String
+  task    Task   @relation(fields: [task_id], references: [id])
+  task_id Int
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id Int
+  created_at DateTime @default(now())
 
   @@map("taskMessages")
 }
