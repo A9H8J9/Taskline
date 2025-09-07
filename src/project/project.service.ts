@@ -43,7 +43,7 @@ export class ProjectService {
       where: {
         user_id: user_id,
       },
-      include: { ProjectMember: {} }
+      include: { ProjectMember: true }
     })
     return projects
   }
@@ -58,12 +58,6 @@ export class ProjectService {
         id: user_id
       }
     })
-    const member = await prisma.projectMember.findFirst({
-      where: {
-        user_id: user?.id,
-        project_id: project_id,
-      }
-    })
     const owner = await prisma.projectMember.findFirst({
       where: {
         project_id: project_id,
@@ -71,7 +65,7 @@ export class ProjectService {
         user_id: user_id
       }
     })
-    if (!user || me?.email === email || member || owner) {
+    if (!user || me?.email === email || owner) {
       return { status: "error", error: "user not found" }
     }
     await prisma.projectMember.create({
