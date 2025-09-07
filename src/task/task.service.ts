@@ -19,7 +19,7 @@ export class TaskService {
             where: {
                 project_id: project_id
             },
-            include: { TaskMessage: {} }
+            include: { TaskMessage: true }
         })
         return tasks
     }
