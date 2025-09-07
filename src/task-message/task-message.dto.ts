@@ -10,3 +10,10 @@ export class CreateTaskMessageDto {
     @IsNumber()
     task_id: number
 }
+
+export class UpdateTaskMessageDto {
+    @ApiProperty()
+    @IsNumber()
+    task_id: number
+}
+
