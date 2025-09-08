@@ -14,10 +14,8 @@ export class AuthController {
     @Get('google/callback')
     @UseGuards(AuthGuard('google'))
     googleAuthRedirect(@Req() req) {
-        return {
-            message: 'salam',
-            user: req.user.user,
-        };
+       console.log('user', req.user)
+       return this.authService.google(req.user)
     }
     @Post('/register')
     Register(@Body() data: RegisterDto) {

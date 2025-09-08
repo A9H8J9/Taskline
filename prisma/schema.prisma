@@ -19,6 +19,7 @@ model User {
   name          String
   email         String          @unique
   password      String
+  picture String? @default("")
   Project       Project[]
   ProjectMember ProjectMember[]
   TaskMessage   TaskMessage[]
